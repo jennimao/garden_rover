@@ -43,8 +43,8 @@ def handle_control_command(data):
         dx = value['x'] - value['oldX']
         dy = value['y'] - value['oldY']
         
-        # Here you would add the actual robot control code
-        # For example: send commands to Raspberry Pi GPIO pins
+        # TODO: Implement actual robot movement logic
+        # send commands to Raspberry Pi GPIO pins
         if dx > 0:
             print("Moving right")
             # GPIO commands for moving right
