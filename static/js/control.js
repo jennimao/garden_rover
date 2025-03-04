@@ -6,7 +6,8 @@ const gameState = {
     position: { x: 0, y: 0 },
     mapSize: { width: 20, height: 20 },
     tileSize: 64,
-    moving: false
+    moving: false,
+    pathCoordinates: []  // Store path coordinates
 };
 
 // DOM Elements
@@ -16,28 +17,89 @@ const statusDisplay = document.getElementById('status-display');
 const batteryLevel = document.getElementById('battery-level');
 const gameMap = document.querySelector('.game-map');
 
+// Generate a winding path
+function generatePath() {
+    const path = [];
+    let x = gameState.mapSize.width - 1;  // Start from right
+    let y = Math.floor(gameState.mapSize.height / 2);  // Start from middle
+    
+    // Direction of movement (-1 for up, 1 for down)
+    let direction = Math.random() < 0.5 ? -1 : 1;
+    // How many steps before considering direction change
+    let directionChangeCounter = 0;
+    
+    path.push({x, y});
+    
+    while (x > 0) {
+        // Increment counter
+        directionChangeCounter++;
+        
+        // Consider changing direction every 3-5 steps
+        if (directionChangeCounter >= 3 + Math.floor(Math.random() * 3)) {
+            direction = -direction;  // Reverse direction
+            directionChangeCounter = 0;  // Reset counter
+        }
+        
+        // 80% chance to move diagonally (both left and up/down)
+        if (Math.random() < 0.8) {
+            // Check if we can move in the current direction
+            let newY = y + direction;
+            if (newY >= 2 && newY <= gameState.mapSize.height - 3) {
+                y = newY;
+            } else {
+                direction = -direction;  // Reverse direction if we hit a boundary
+            }
+        }
+        
+        // Always move left
+        x--;
+        
+        // Add new coordinate to path
+        path.push({x, y});
+        
+        // Add height to the path
+        if (y > 0) path.push({x, y: y-1});
+        if (y < gameState.mapSize.height - 1) path.push({x, y: y+1});
+        
+        // Occasionally add extra height for more organic feel
+        if (Math.random() < 0.3) {
+            if (y > 1) path.push({x, y: y-2});
+            if (y < gameState.mapSize.height - 2) path.push({x, y: y+2});
+        }
+    }
+    
+    return path;
+}
+
+// Check if coordinates are in path
+function isInPath(x, y, pathCoords) {
+    return pathCoords.some(coord => coord.x === x && coord.y === y);
+}
+
 // Initialize game map
 function initializeMap() {
     const flowerTypes = [
         'tile-flower-tulips',
-        'tile-flower-potted',
-        'tile-flower-garden',
-        'tile-flower-trellis'
+        'tile-flower-patch',
+        'tile-flower-sakura',
+        'tile-flower-fence'
     ];
+
+    // Generate the path first
+    gameState.pathCoordinates = generatePath();
 
     for (let y = 0; y < gameState.mapSize.height; y++) {
         for (let x = 0; x < gameState.mapSize.width; x++) {
             const tile = document.createElement('div');
             tile.className = 'map-tile';
             
-            // Add different tile types
-            if (Math.random() < 0.15) {  // Increased chance for flowers
+            // Check if current coordinate is part of the path
+            if (isInPath(x, y, gameState.pathCoordinates)) {
+                tile.classList.add('tile-path');
+            } else if (Math.random() < 0.15) {  // Add flowers around the path
                 tile.classList.add('tile-flower');
-                // Randomly select a flower type
                 const randomFlower = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
                 tile.classList.add(randomFlower);
-            } else if (Math.random() < 0.2) {
-                tile.classList.add('tile-path');
             } else {
                 tile.classList.add('tile-grass');
             }

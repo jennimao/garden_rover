@@ -89,7 +89,7 @@ body {
 }
 
 .game-map {
-    background-color: #2d4c1e;  /* Dark green for garden theme */
+    background-color: #79b259;  /* Dark green for garden theme */
     width: 100vw;
     height: 100vh;
     position: relative;
@@ -127,8 +127,8 @@ body {
 }
 
 #robot-character {
-    width: 64px;  /* Increased size for the GIF */
-    height: 64px;
+    width: 250px;  /* Increased size for the GIF */
+    height: 250px;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -151,11 +151,11 @@ body {
 }
 
 .tile-grass {
-    background-color: #3a5a28;
+    background-color: #79b259;
 }
 
 .tile-path {
-    background-color: #8b7355;
+    background-color: #eec491;
 }
 
 .tile-flower {
@@ -166,21 +166,25 @@ body {
 }
 
 .tile-flower-tulips {
-    background-image: url('/static/images/tulips.png');
+    background-image: url('/static/images/tulips.gif');
     transform: scale(0.8);
+    z-index: 2;
 }
 
-.tile-flower-potted {
-    background-image: url('/static/images/potted-flowers.png');
-    transform: scale(0.8);
+.tile-flower-patch {
+    background-image: url('/static/images/flower_patch.gif');
+    transform: scale(2.0);
+    z-index: 2;
 }
 
-.tile-flower-garden {
-    background-image: url('/static/images/garden-flowers.png');
-    transform: scale(0.8);
+.tile-flower-sakura {
+    background-image: url('/static/images/sakura_branch.gif');
+    transform: scale(2.0);
+    z-index: 2;
 }
 
-.tile-flower-trellis {
-    background-image: url('/static/images/trellis-flowers.png');
-    transform: scale(0.8);
+.tile-flower-fence {
+    background-image: url('/static/images/garden_fence.gif');
+    transform: scale(1.0);
+    z-index: 2;
 } 
