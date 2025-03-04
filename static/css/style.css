@@ -1,0 +1,186 @@
+body {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    font-family: 'Press Start 2P', system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.card {
+    background-color: #2d2d2d;
+    border: 1px solid #404040;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.camera-feed-container {
+    width: 100%;
+    height: 70vh;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.camera-feed-placeholder {
+    color: #666;
+    font-size: 1.2rem;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+    transform: translateY(-2px);
+}
+
+.form-range::-webkit-slider-thumb {
+    background: #007bff;
+}
+
+.form-range::-moz-range-thumb {
+    background: #007bff;
+}
+
+.form-range::-ms-thumb {
+    background: #007bff;
+}
+
+/* Status indicators */
+#battery-level, #status-display {
+    color: #7fff00;
+    font-weight: bold;
+}
+
+#location-display {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .camera-feed-container {
+        height: 50vh;
+    }
+}
+
+.game-container {
+    padding: 20px;
+    height: 100vh;
+}
+
+.game-map {
+    background-color: #2d4c1e;  /* Dark green for garden theme */
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    image-rendering: pixelated;
+}
+
+.status-panel {
+    background-color: rgba(45, 45, 45, 0.9);
+    border: 4px solid #3d3d3d;
+    padding: 20px;
+    border-radius: 8px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 300px;
+    z-index: 2000;
+}
+
+.status-info {
+    margin: 20px 0;
+    font-size: 14px;
+}
+
+.controls-info {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.controls-info p {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+#robot-character {
+    width: 64px;  /* Increased size for the GIF */
+    height: 64px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    background-image: url('/static/images/kiki.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.map-tile {
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    background-size: contain;
+    z-index: 1;
+    image-rendering: pixelated;
+}
+
+.tile-grass {
+    background-color: #3a5a28;
+}
+
+.tile-path {
+    background-color: #8b7355;
+}
+
+.tile-flower {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    image-rendering: pixelated;
+}
+
+.tile-flower-tulips {
+    background-image: url('/static/images/tulips.png');
+    transform: scale(0.8);
+}
+
+.tile-flower-potted {
+    background-image: url('/static/images/potted-flowers.png');
+    transform: scale(0.8);
+}
+
+.tile-flower-garden {
+    background-image: url('/static/images/garden-flowers.png');
+    transform: scale(0.8);
+}
+
+.tile-flower-trellis {
+    background-image: url('/static/images/trellis-flowers.png');
+    transform: scale(0.8);
+} 
