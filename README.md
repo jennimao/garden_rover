@@ -5,7 +5,7 @@ garden rover lives in a mini terrarium which contains nearly all of life's delig
 garden rover's daily routine is to take a nap under her tree, fill some water from the koi pond, and gently mist all the plants she sees along the way. 
 
 
-### grow local garden
+### grow local garden🌷
 ```
 python app.py
 ```
