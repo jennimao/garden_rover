@@ -1,6 +1,3 @@
-// Connect to WebSocket server
-const socket = io();
-
 // Game state
 const gameState = {
     position: { x: 0, y: 0 },
@@ -12,7 +9,7 @@ const gameState = {
 
 // DOM Elements
 const robotCharacter = document.getElementById('robot-character');
-const locationDisplay = document.getElementById('location-display');
+// const locationDisplay = document.getElementById('location-display');
 const statusDisplay = document.getElementById('status-display');
 const batteryLevel = document.getElementById('battery-level');
 const gameMap = document.querySelector('.game-map');
@@ -117,7 +114,7 @@ function updateRobotPosition() {
     const y = gameState.position.y * gameState.tileSize;
     robotCharacter.style.left = `${x}px`;
     robotCharacter.style.top = `${y}px`;
-    locationDisplay.textContent = `${gameState.position.x}, ${gameState.position.y}`;
+    //locationDisplay.textContent = `${gameState.position.x}, ${gameState.position.y}`;
 }
 
 // Handle keyboard movement
@@ -129,12 +126,15 @@ document.addEventListener('keydown', (e) => {
     
     switch(e.key) {
         case 'ArrowUp':
+            console.log('up');
             if (gameState.position.y > 0) {
                 gameState.position.y--;
                 moved = true;
             }
             break;
         case 'ArrowDown':
+            console.log('up');
+
             if (gameState.position.y < gameState.mapSize.height - 1) {
                 gameState.position.y++;
                 moved = true;
@@ -156,7 +156,7 @@ document.addEventListener('keydown', (e) => {
     
     if (moved) {
         // Send movement to server
-        socket.emit('control_command', {
+        motorSocket.emit('control_command', {
             command: 'move',
             value: {
                 x: gameState.position.x,
@@ -170,13 +170,50 @@ document.addEventListener('keydown', (e) => {
 });
 
 // Handle robot state updates
-socket.on('robot_state', (state) => {
+motorSocket.on('robot_state', (state) => {
     statusDisplay.textContent = state.status || 'Active';
     batteryLevel.textContent = `${state.battery}%`;
     
     if (state.position) {
         gameState.position = state.position;
         updateRobotPosition();
+    }
+});
+
+// Modify keyboard event handler to send commands to the Pi
+document.addEventListener('keydown', (event) => {
+    if (!gameState.moving) {
+        switch(event.key) {
+            case 'ArrowUp':
+                console.log('up');
+                motorSocket.emit('move', { direction: 'up' });
+                break;
+            case 'ArrowDown':
+                console.log('down');
+                motorSocket.emit('move', { direction: 'down' });
+                break;
+            case 'ArrowLeft':
+                motorSocket.emit('move', { direction: 'left' });
+                break;
+            case 'ArrowRight':
+                motorSocket.emit('move', { direction: 'right' });
+                break;
+        }
+    }
+});
+
+// Add motor connection status handling
+motorSocket.on('connect', () => {
+    console.log('Connected to robot control server');
+});
+
+motorSocket.on('disconnect', () => {
+    console.log('Disconnected from robot control server');
+});
+
+motorSocket.on('movement_status', (data) => {
+    if (data.status === 'error') {
+        console.error('Motor movement error:', data.message);
     }
 });
 
