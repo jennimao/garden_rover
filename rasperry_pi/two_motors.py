@@ -4,13 +4,13 @@ from time import sleep
 # --- Motor 1 Pin Setup ---
 in1 = 17
 in2 = 18
-en1 = 24
+en1 = 25
 
 # --- Motor 2 Pin Setup ---
 # (Change these pins if needed to match your wiring.)
 in3 = 22
 in4 = 23
-en2 = 25
+en2 = 24
 
 # Direction flag: 1 = forward, 0 = backward (applied to both motors)
 temp1 = 1  
