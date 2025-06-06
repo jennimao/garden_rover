@@ -122,10 +122,14 @@ function sendMoveCommand(direction) {
 
 // === Handle keyboard movement ===
 document.addEventListener('keydown', (event) => {
-    if (gameState.moving) return;  // Prevent multiple moves at once
+    // Prevent default scrolling on arrow keys
+    if(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+        event.preventDefault();
+    }
+    
+    if (gameState.moving) return;  // Optional: You can remove this if you want continuous moves on key hold
     
     let moved = false;
-    const oldPos = { ...gameState.position };
     let direction = null;
     
     switch(event.key) {
@@ -162,6 +166,13 @@ document.addEventListener('keydown', (event) => {
     if (moved) {
         sendMoveCommand(direction);
         updateRobotPosition();
+    }
+});
+
+document.addEventListener('keyup', (event) => {
+    if(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+        event.preventDefault();
+        sendMoveCommand('stop');
     }
 });
 
